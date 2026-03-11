@@ -102,7 +102,7 @@ These two files are the most important for understanding the project's intent. R
 
 **1. Clone and install**
 ```bash
-git clone <repo-url>
+git clone github.com/MattKay02/Netflix-Clone
 cd Netflix_Clone
 npm install
 ```
@@ -128,7 +128,7 @@ VITE_TMDB_IMAGE_BASE=https://image.tmdb.org/t/p
 npm run dev
 ```
 
-The app runs at `http://localhost:5173`. Without a TMDB key the app still loads — it shows a clear error message instead of crashing.
+Without a TMDB key the app still loads — it shows a clear error message instead of crashing.
 
 ---
 
