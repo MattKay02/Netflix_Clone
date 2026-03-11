@@ -13,6 +13,7 @@
 
 import { tmdbClient } from './tmdb.client'
 import type { Movie, MovieListResponse, MovieDetail, MovieVideosResponse } from '../types/movie'
+import type { CreditsResponse } from '../types/credits'
 
 /**
  * Fetch the current trending movies (day window).
@@ -87,6 +88,15 @@ export const MOVIE_GENRES: { id: number; label: string }[] = [
   { id: 878, label: 'Science Fiction' },
   { id: 18, label: 'Drama' },
 ]
+
+/**
+ * Fetch cast and crew for a single movie.
+ * Used by the TitleCard hover popup expanded detail section.
+ */
+export const getMovieCredits = async (movieId: number): Promise<CreditsResponse> => {
+  const { data } = await tmdbClient.get<CreditsResponse>(`/movie/${movieId}/credits`)
+  return data
+}
 
 // Selects a random movie from the list for the Hero banner
 export const getRandomMovie = (movies: Movie[]): Movie => {

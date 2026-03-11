@@ -8,6 +8,7 @@
 
 import { tmdbClient } from './tmdb.client'
 import type { TVListResponse, TVDetail, GenreListResponse } from '../types/tv'
+import type { CreditsResponse } from '../types/credits'
 
 /**
  * Fetch the current trending TV shows (week window).
@@ -44,6 +45,24 @@ export const getTVDetail = async (tvId: number): Promise<TVDetail> => {
  */
 export const getTVGenres = async (): Promise<GenreListResponse> => {
   const { data } = await tmdbClient.get<GenreListResponse>('/genre/tv/list')
+  return data
+}
+
+/**
+ * Fetch cast and crew for a single TV show.
+ * Used by the TitleCard hover popup expanded detail section.
+ */
+export const getTVCredits = async (tvId: number): Promise<CreditsResponse> => {
+  const { data } = await tmdbClient.get<CreditsResponse>(`/tv/${tvId}/credits`)
+  return data
+}
+
+/**
+ * Fetch TV shows similar to a given show.
+ * Used by the DetailModal "More Like This" section.
+ */
+export const getSimilarTV = async (tvId: number): Promise<TVListResponse> => {
+  const { data } = await tmdbClient.get<TVListResponse>(`/tv/${tvId}/similar`)
   return data
 }
 

@@ -48,3 +48,41 @@
 .row-slide-in-right  { animation: slideInRight  0.45s ease forwards; }
 .row-slide-out-right { animation: slideOutRight 0.45s ease forwards; }
 .row-slide-in-left   { animation: slideInLeft   0.45s ease forwards; }
+
+/*
+  Hover card popup animations — used by TitleCard's portal-based hover popup.
+  scale + subtle upward nudge gives the same "card lifts off the row" feel
+  as Netflix. Out is slightly faster than in so closing feels snappy.
+*/
+@keyframes hoverCardIn {
+  from { transform: scale(0.88) translateY(6px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);   opacity: 1; }
+}
+@keyframes hoverCardOut {
+  from { transform: scale(1)    translateY(0);   opacity: 1; }
+  to   { transform: scale(0.88) translateY(6px); opacity: 0; }
+}
+
+.hover-card-in  { animation: hoverCardIn  0.2s ease-out forwards; }
+.hover-card-out { animation: hoverCardOut 0.15s ease-in  forwards; }
+
+/*
+  Detail modal entrance / exit animations.
+  Uses scale + opacity so the modal feels like it "grows" into view from
+  the card's position on screen.
+*/
+@keyframes modalIn {
+  from { transform: scale(0.82); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+@keyframes modalOut {
+  from { transform: scale(1);    opacity: 1; }
+  to   { transform: scale(0.82); opacity: 0; }
+}
+
+.modal-scale-in  { animation: modalIn  0.3s cubic-bezier(0.2, 0, 0, 1) forwards; }
+.modal-scale-out { animation: modalOut 0.25s ease-in forwards; }
+
+/* Hide scrollbar on the "More Like This" row inside DetailModal */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
