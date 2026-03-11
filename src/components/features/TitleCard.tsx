@@ -5,6 +5,16 @@
   image loading, and click behaviour here keeps MovieRow clean and the card
   style consistent everywhere.
 
+  CARD SIZING:
+  Cards use fixed widths at Tailwind breakpoints:
+    < 640px  (sm) : w-36  = 144px wide, 216px tall  (aspect 2:3)
+    640–1023 (lg) : w-44  = 176px wide, 264px tall
+    ≥ 1024px      : w-48  = 192px wide, 288px tall
+
+  These widths are the single source of truth. useCardsPerPage reads the same
+  breakpoint values to calculate how many cards fit per row. If you change
+  these widths, update CARD_WIDTHS in useCardsPerPage.ts to match.
+
   STATE USED:
   - useState (local): isHovered — hover state is purely local, nothing else cares
   - useModal (Context): openModal — shared with HeroBanner, so it lives in Context
@@ -42,12 +52,12 @@ export function TitleCard({ title }: TitleCardProps) {
     <button
       type="button"
       aria-label={`View details for ${displayName}`}
-      className="relative flex-shrink-0 w-36 sm:w-44 md:w-48 rounded overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-netflix-red"
+      className="relative w-36 sm:w-44 lg:w-48 rounded overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-netflix-red"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => openModal(title)}
     >
-      {/* Poster image */}
+      {/* Poster image — aspect-[2/3] derives height from fixed width above */}
       <div
         className="w-full aspect-[2/3] bg-gray-800 bg-cover bg-center transition-transform duration-300 ease-in-out"
         style={{
@@ -57,7 +67,7 @@ export function TitleCard({ title }: TitleCardProps) {
         aria-hidden="true"
       />
 
-      {/* Hover overlay — shows title on hover when no backdrop image */}
+      {/* Hover overlay */}
       {isHovered && (
         <div className="absolute inset-0 bg-black/60 flex items-end p-2 transition-opacity">
           {backdropPath && (

@@ -16,23 +16,35 @@
   body {
     @apply bg-netflix-dark text-white;
   }
-
-  /* Smooth scrolling for horizontal movie rows */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #555 transparent;
-  }
-
-  *::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 2px;
-  }
 }
+
+/*
+  Row slide animations — used by MovieRow arrow pagination.
+  Defined outside @layer so they are always included in the bundle.
+  The four variants cover both directions:
+    slide-out-left  : current page exits stage left  (→ navigation)
+    slide-in-right  : next page enters from the right (→ navigation)
+    slide-out-right : current page exits stage right (← navigation)
+    slide-in-left   : prev page enters from the left  (← navigation)
+*/
+@keyframes slideOutLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+.row-slide-out-left  { animation: slideOutLeft  0.45s ease forwards; }
+.row-slide-in-right  { animation: slideInRight  0.45s ease forwards; }
+.row-slide-out-right { animation: slideOutRight 0.45s ease forwards; }
+.row-slide-in-left   { animation: slideInLeft   0.45s ease forwards; }

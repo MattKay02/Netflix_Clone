@@ -84,7 +84,7 @@ export function HeroBanner() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-row-gradient" aria-hidden="true" />
 
       {/* Content */}
-      <div className="absolute bottom-[20%] left-4 sm:left-12 max-w-xs sm:max-w-md lg:max-w-xl">
+      <div className="absolute bottom-[20%] left-4 sm:left-12 xl:left-16 max-w-xs sm:max-w-md lg:max-w-xl">
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 leading-tight drop-shadow-lg">
           {heroTitle.title}
         </h1>

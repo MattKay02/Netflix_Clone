@@ -14,40 +14,44 @@
 
 import { HeroBanner } from '../components/features/HeroBanner'
 import { MovieRow } from '../components/features/MovieRow'
+import { NavBar } from '../components/features/NavBar'
 import { getTrendingTV } from '../api/tv'
 import { getMoviesByGenre, getTrendingMovies, MOVIE_GENRES } from '../api/movies'
 
 export function HomePage() {
   return (
-    <main>
-      <HeroBanner />
+    <>
+      <NavBar />
+      <main>
+        <HeroBanner />
 
-      {/* Negative margin pulls the rows up to overlap the hero gradient */}
-      <div className="-mt-16 relative z-10 pb-12">
-        {/* Trending Now row — uses the same query as HeroBanner, so it's cached */}
-        <MovieRow
-          label="Trending Now"
-          queryKey={['trending', 'movies']}
-          queryFn={getTrendingMovies}
-        />
-
-        {/* Trending TV — a separate resource type */}
-        <MovieRow
-          label="Trending TV Shows"
-          queryKey={['trending', 'tv']}
-          queryFn={getTrendingTV}
-        />
-
-        {/* Genre rows — one per entry in MOVIE_GENRES */}
-        {MOVIE_GENRES.map((genre) => (
+        {/* Negative margin pulls the rows up to overlap the hero gradient */}
+        <div className="-mt-16 relative z-10 pb-12">
+          {/* Trending Now row — uses the same query as HeroBanner, so it's cached */}
           <MovieRow
-            key={genre.id}
-            label={genre.label}
-            queryKey={['movies', 'genre', String(genre.id)]}
-            queryFn={() => getMoviesByGenre(genre.id)}
+            label="Trending Now"
+            queryKey={['trending', 'movies']}
+            queryFn={getTrendingMovies}
           />
-        ))}
-      </div>
-    </main>
+
+          {/* Trending TV — a separate resource type */}
+          <MovieRow
+            label="Trending TV Shows"
+            queryKey={['trending', 'tv']}
+            queryFn={getTrendingTV}
+          />
+
+          {/* Genre rows — one per entry in MOVIE_GENRES */}
+          {MOVIE_GENRES.map((genre) => (
+            <MovieRow
+              key={genre.id}
+              label={genre.label}
+              queryKey={['movies', 'genre', String(genre.id)]}
+              queryFn={() => getMoviesByGenre(genre.id)}
+            />
+          ))}
+        </div>
+      </main>
+    </>
   )
 }
