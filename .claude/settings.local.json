@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npx create-vite@latest . --template react-ts)",
+      "Read(//c/Projects/**)",
+      "Bash(npx create-vite@latest netflix-temp --template react-ts)",
+      "Bash(cp -r c:/Projects/netflix-temp/. c:/Projects/Netflix_Clone/)",
+      "Bash(rm -rf c:/Projects/netflix-temp)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(./node_modules/.bin/tailwindcss init:*)",
+      "Bash(node node_modules/tailwindcss/lib/cli.js init -p)",
+      "Bash(node node_modules/typescript/bin/tsc --noEmit)",
+      "Bash(timeout 15 npm run dev)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

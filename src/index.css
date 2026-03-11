@@ -1,0 +1,38 @@
+/*
+  WHY THIS FILE EXISTS:
+  Tailwind CSS requires these three directives to inject its base reset,
+  component utilities, and utility classes into the bundle. This is the only
+  CSS file in the project — all other styling is done via Tailwind utility
+  classes directly in JSX. The base layer sets the Netflix dark background and
+  white text so every page inherits the correct theme without needing extra
+  wrapper classes.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-netflix-dark text-white;
+  }
+
+  /* Smooth scrolling for horizontal movie rows */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 2px;
+  }
+}
