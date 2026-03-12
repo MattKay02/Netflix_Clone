@@ -117,6 +117,7 @@ export function MovieRow({ label, queryKey, queryFn }: MovieRowProps) {
   const gridStyle = {
     gridTemplateColumns: `repeat(${cardsPerPage}, auto)`,
     gap: `${GAP_PX}px`,
+    justifyContent: 'start',
   }
 
   return (

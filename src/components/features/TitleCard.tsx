@@ -82,12 +82,20 @@ function HoverPopup({ title, sourceRect, onClose, onOpenModal }: HoverPopupProps
     setTimeout(onClose, 150)
   }
 
+  function handlePopupClick(e: React.MouseEvent) {
+    // Only open modal if the click wasn't on an action button
+    if ((e.target as HTMLElement).closest('button')) return
+    startClose()
+    onOpenModal()
+  }
+
   return (
     <div
-      className={`fixed z-[9999] rounded-lg overflow-hidden shadow-2xl
+      className={`fixed z-[9999] rounded-lg overflow-hidden shadow-2xl cursor-pointer
         ${isClosing ? 'hover-card-out' : 'hover-card-in'}`}
       style={{ left, top, width: expandedWidth }}
       onMouseLeave={startClose}
+      onClick={handlePopupClick}
     >
       {/* Backdrop image */}
       <div

@@ -15,6 +15,7 @@
 import { HeroBanner } from '../components/features/HeroBanner'
 import { MovieRow } from '../components/features/MovieRow'
 import { NavBar } from '../components/features/NavBar'
+import { Footer } from '../components/features/Footer'
 import { getTrendingTV } from '../api/tv'
 import { getMoviesByGenre, getTrendingMovies, MOVIE_GENRES } from '../api/movies'
 
@@ -52,6 +53,7 @@ export function HomePage() {
           ))}
         </div>
       </main>
+      <Footer />
     </>
   )
 }

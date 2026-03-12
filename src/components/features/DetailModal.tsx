@@ -24,7 +24,7 @@
   the same modal re-renders with fresh data for the selected title.
 */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useQuery } from '@tanstack/react-query'
 import { tmdbImage } from '../../utils/tmdbImage'
@@ -169,6 +169,29 @@ function ModalContent({ title, onRequestClose }: ModalContentProps) {
   const language   = title.original_language?.toUpperCase()
   const matchScore = Math.round(title.vote_average * 10)
 
+  // ── Similar row scroll ────────────────────────────────────────────────────
+  const similarRowRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft,  setCanScrollLeft]  = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  function updateScrollState() {
+    const el = similarRowRef.current
+    if (!el) return
+    setCanScrollLeft(el.scrollLeft > 0)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+  }
+
+  function scrollSimilar(dir: 'left' | 'right') {
+    const el = similarRowRef.current
+    if (!el) return
+    el.scrollBy({ left: dir === 'right' ? 320 : -320, behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    // After data renders, check if the row is wide enough to scroll right
+    setTimeout(updateScrollState, 0)
+  }, [similarData])
+
   // ── Close helpers ─────────────────────────────────────────────────────────
   function handleClose() {
     if (isClosing) return
@@ -204,7 +227,7 @@ function ModalContent({ title, onRequestClose }: ModalContentProps) {
       {/* Centering wrapper — flexbox avoids transform conflicts with scale animation */}
       <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-none">
         <div
-          className={`pointer-events-auto w-full max-w-[900px] max-h-[88vh] overflow-y-auto
+          className={`pointer-events-auto w-full max-w-[900px] max-h-[88vh] overflow-y-auto scrollbar-hide
             bg-[#181818] rounded-lg shadow-[0_8px_60px_rgba(0,0,0,0.85)]
             ${isClosing ? 'modal-scale-out' : 'modal-scale-in'}`}
           onClick={e => e.stopPropagation()}
@@ -347,10 +370,45 @@ function ModalContent({ title, onRequestClose }: ModalContentProps) {
                   <Spinner size="sm" label="Loading similar titles" />
                 </div>
               ) : similarData && similarData.results.length > 0 ? (
-                <div className="flex gap-4 overflow-x-auto pb-3 scrollbar-hide">
-                  {(similarData.results as (Movie | TVShow)[]).slice(0, 20).map(t => (
-                    <SimilarCard key={t.id} title={t} />
-                  ))}
+                <div className="relative">
+                  {/* Left arrow */}
+                  <button
+                    type="button"
+                    aria-label="Scroll left"
+                    onClick={() => scrollSimilar('left')}
+                    className={`absolute left-0 top-0 bottom-3 z-10 w-10 flex items-center justify-center
+                      bg-black/50 hover:bg-black/80 transition-colors rounded-l
+                      ${canScrollLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                  >
+                    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" />
+                    </svg>
+                  </button>
+
+                  <div
+                    ref={similarRowRef}
+                    onScroll={updateScrollState}
+                    onLoad={updateScrollState}
+                    className="flex gap-4 overflow-x-auto pb-3 scrollbar-hide"
+                  >
+                    {(similarData.results as (Movie | TVShow)[]).slice(0, 20).map(t => (
+                      <SimilarCard key={t.id} title={t} />
+                    ))}
+                  </div>
+
+                  {/* Right arrow */}
+                  <button
+                    type="button"
+                    aria-label="Scroll right"
+                    onClick={() => scrollSimilar('right')}
+                    className={`absolute right-0 top-0 bottom-3 z-10 w-10 flex items-center justify-center
+                      bg-black/50 hover:bg-black/80 transition-colors rounded-r
+                      ${canScrollRight ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                  >
+                    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+                    </svg>
+                  </button>
                 </div>
               ) : (
                 <p className="text-white/30 text-sm">No similar titles found.</p>

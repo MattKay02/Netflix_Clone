@@ -86,3 +86,39 @@
 /* Hide scrollbar on the "More Like This" row inside DetailModal */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/*
+  Hero banner slide animations — used by HeroBanner's rotating featured titles.
+  Full-viewport-width slides; the four variants mirror the row-slide variants.
+  Slightly longer duration (0.6s) suits the larger visual area.
+*/
+@keyframes heroSlideOutLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes heroSlideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes heroSlideOutRight {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+@keyframes heroSlideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+.hero-slide-out-left  { animation: heroSlideOutLeft  0.6s ease forwards; }
+.hero-slide-in-right  { animation: heroSlideInRight  0.6s ease forwards; }
+.hero-slide-out-right { animation: heroSlideOutRight 0.6s ease forwards; }
+.hero-slide-in-left   { animation: heroSlideInLeft   0.6s ease forwards; }
+
+/*
+  Hero progress bar fill — drives the active indicator bar from empty to full
+  over ROTATE_MS. animationPlayState is toggled via inline style on hover.
+*/
+@keyframes heroProgress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
